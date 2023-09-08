@@ -65,3 +65,86 @@ endmodule
 # KERNEL: values of queue=72 20 1 1 1 2 7 54 15 19 3 2 15 73 91 100 14 49 27 96 79 35 60 49 89 25 6 21 16 13 6 10 3 2 2 1 2 6 15 8 5 63 26 81 58 64 1 1 2 2 65 16 6 
 # KERNEL: queue sum is =1500
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+module top;
+    import uvm_pkg::*;
+  `include "uvm_macros.svh"
+
+class hello_uvm extends uvm_test;
+    `uvm_component_utils(hello_uvm)
+
+    function new(string name="hello_uvm",uvm_component parent=null);
+        super.new(name,parent);
+    endfunction
+
+    virtual task run_phase(uvm_phase phase);
+        phase.raise_objection(this, "Objection raised from hello_uvm class");
+       `uvm_info("Test_ID","Hello high",UVM_HIGH)
+      `uvm_info("Test_ID","Hello Medium",UVM_MEDIUM)
+      `uvm_info("Test_ID","Hello debug",UVM_DEBUG)
+      `uvm_info("Test_ID","Hello low",UVM_LOW) 
+    
+        phase.drop_objection(this, "Objection dropped from hello_uvm class");
+    endtask
+endclass
+
+initial begin 
+  run_test("hello_uvm");
+end 
+
+endmodule
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+UVM_INFO testbench.sv(15) @ 0: uvm_test_top [Test_ID] Hello Medium
+UVM_INFO testbench.sv(17) @ 0: uvm_test_top [Test_ID] Hello low
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    import uvm_pkg::*;
+    `include "uvm_macros.svh"
+
+    class hello_uvm extends uvm_test;
+        `uvm_component_utils(hello_uvm)
+
+        function new(string name="hello_uvm", uvm_component parent=null);
+            super.new(name, parent);
+        endfunction
+
+        virtual task run_phase(uvm_phase phase);
+            phase.raise_objection(this, "Objection raised from hello_uvm class");
+
+            `uvm_info("Test_ID", "Hello high", UVM_HIGH)
+          `uvm_info("Test_ID", "Hello Medium", UVM_MEDIUM)
+            `uvm_info("Test_ID", "Hello debug", UVM_DEBUG)
+           `uvm_info("Test_ID", "Hello low", UVM_LOW)
+
+            phase.drop_objection(this, "Objection dropped from hello_uvm class");
+        endtask
+    endclass
+module top;
+    initial begin
+      hello_uvm h = new();
+        h.set_report_verbosity_level(UVM_DEBUG); // Set verbosity to UVM_DEBUG for this instance
+        run_test("hello_uvm");
+    end
+
+endmodule
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+UVM_INFO @ 0: reporter [RNTST] Running test hello_uvm...
+UVM_INFO testbench.sv(15) @ 0: hello_uvm [Test_ID] Hello high
+UVM_INFO testbench.sv(16) @ 0: hello_uvm [Test_ID] Hello Medium
+UVM_INFO testbench.sv(17) @ 0: hello_uvm [Test_ID] Hello debug
+UVM_INFO testbench.sv(18) @ 0: hello_uvm [Test_ID] Hello low
+UVM_INFO testbench.sv(16) @ 0: uvm_test_top [Test_ID] Hello Medium
+UVM_INFO testbench.sv(18) @ 0: uvm_test_top [Test_ID] Hello low
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
